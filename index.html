@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Shield V10 FINAL</title>
+<style>
+body{background:#0a0e1a;color:#fff;font-family:system-ui;text-align:center;padding:20px}
+.box{background:#151a2d;padding:25px;border-radius:15px;max-width:500px;margin:auto;box-shadow:0 0 20px #00ffcc33}
+input{width:90%;padding:12px;border-radius:10px;border:none;margin:10px 0;font-size:16px;direction:ltr}
+button{background:#00ffcc;color:#000;padding:12px 25px;border:none;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer;width:92%}
+.result{margin-top:20px;padding:15px;border-radius:10px;display:none}
+.safe{background:#00cc661a;border:1px solid #00cc66;color:#00ff88}
+.danger{background:#ff00331a;border:1px solid #ff0033;color:#ff5577}
+h1{color:#00ffcc}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>🛡️ Golden Shield V10</h1>
+<p>فحص روابط النصب والتصيد الاحتيالي</p>
+<input id="url" type="text" placeholder="https://example.com">
+<button onclick="check()">افحص الآن</button>
+<div id="res" class="result"></div>
+</div>
+<script>
+function check(){
+ let u=document.getElementById('url').value.trim();
+ let r=document.getElementById('res');
+ if(!u){alert('حط اللينك الأول');return;}
+ r.style.display='block';
+ let badWords=['login','verify','secure','account','update','free-money','gift','bonus','bank'];
+ let isHttp = u.startsWith('http://');
+ let hasBad = badWords.some(w=>u.toLowerCase().includes(w));
+ let longUrl = u.length>75;
+ let hasIp = /^\d+\.\d+\.\d+\.\d+/.test(u.replace('https://','').replace('http://',''));
+ if(isHttp || hasBad || longUrl || hasIp){
+   r.className='result danger';
+   r.innerHTML='⛔ خطر! لينك مشبوه<br><br>السبب: '+(isHttp?'يستخدم http غير آمن<br>':'')+(hasBad?'فيه كلمات نصب<br>':'')+(longUrl?'لينك طويل جدا<br>':'')+(hasIp?'يستخدم IP مباشر<br>':'');
+ }else{
+   r.className='result safe';
+   r.innerHTML='✅ آمن مبدئيا<br><br>اللينك شكله سليم، بس خليك حذر برضه';
+ }
+}
+</script>
+</body>
+</html>
